@@ -21,6 +21,7 @@ Word.prototype.updateWithNewGuess = function(char) {
     }
 }
 
+module.exports = Word;
 
 
 
