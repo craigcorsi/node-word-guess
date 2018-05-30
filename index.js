@@ -1,10 +1,13 @@
+// import word.js and the inquirer and fs npm packages
 var Word = require('./word.js');
 var inquirer = require('inquirer');
 var fs = require('fs');
 
+// import as an array a list of long words from the Scrabble dictionary
 var wordlist = fs.readFileSync('./wordlist.txt').toString().split('\n');
 var numberOfWords = wordlist.length;
 
+// Messages to be displayed during the game
 var inGameMessages = ['Guess a letter!', 'Already guessed!', 'Incorrect guess!', 'Correct guess!'];
 
 // in-game variables
@@ -16,10 +19,14 @@ var guessedLetters;
 
 
 
-
-
+//
+//
 // in-game functions
+//
 
+
+
+// startup function offering three difficulties and the option to quit
 function startUp() {
     inquirer.prompt([{
         type: "list",
@@ -43,6 +50,7 @@ function startUp() {
     });
 }
 
+// function resetting ingame variables and setting the appropriate number of lives
 function startGame(lives) {
     livesRemaining = lives;
     currentWordString = wordlist[Math.floor(Math.random() * wordlist.length)];
@@ -52,11 +60,13 @@ function startGame(lives) {
     displayWord(0);
 }
 
+// function displaying the current word's guessed letters along with blanks where unguessed letters should appear
 function displayWord(messageIndex) {
     console.log('\n');
     currentWordObject.showGuessesAndBlanks();
     console.log('\n');
 
+    // Ask the user to input a character or "Quit"
     inquirer.prompt([{
         type: "input",
         name: "letter",
@@ -98,16 +108,19 @@ function displayWord(messageIndex) {
     });
 }
 
+// display win text, then end the game
 function winGame() {
     console.log('\nYou win! You guessed the word: ' + currentWordString + '\n');
     endGame();
 }
 
+// display lose text, then end the game
 function loseGame() {
     console.log('\nYou lose! The word was: ' + currentWordString + '\n');
     endGame();
 }
 
+// offer the opportunity to play again
 function endGame() {
     inquirer.prompt([{
         type: "list",
@@ -131,31 +144,6 @@ function endGame() {
     });
 }
 
+
 startUp();
 
-
-
-
-
-
-
-
-
-
-
-
-
-// var boats = new Word('boats');
-// var apples = new Word('apples');
-
-// boats.showGuessesAndBlanks();
-// boats.updateWithNewGuess('t');
-// boats.showGuessesAndBlanks();
-// boats.updateWithNewGuess('b');
-// boats.showGuessesAndBlanks();
-
-// apples.showGuessesAndBlanks();
-// apples.updateWithNewGuess('e');
-// apples.showGuessesAndBlanks();
-// apples.updateWithNewGuess('p');
-// apples.showGuessesAndBlanks();
