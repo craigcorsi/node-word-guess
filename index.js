@@ -1,5 +1,3 @@
-// already guessed, for incorrect guesses
-
 var Word = require('./word.js');
 var inquirer = require('inquirer');
 var fs = require('fs');
@@ -27,20 +25,26 @@ function startUp() {
         type: "list",
         name: "startup",
         message: "Welcome to Word Guess!",
-        choices: ["Play", "Quit"]
+        choices: ["Play -- Easy", "Play -- Medium", "Play -- Hard", "Quit"]
     }
     ]).then(function (response) {
         switch (response.startup) {
-            case 'Play':
-                startGame();
+            case 'Play -- Easy':
+                startGame(9);
+                break;
+            case 'Play -- Medium':
+                startGame(6);
+                break;
+            case 'Play -- Hard':
+                startGame(3);
                 break;
             case 'Quit': default:
         }
     });
 }
 
-function startGame() {
-    livesRemaining = 5;
+function startGame(lives) {
+    livesRemaining = lives;
     currentWordString = wordlist[Math.floor(Math.random() * wordlist.length)];
     currentWordObject = new Word(currentWordString);
     currentArrayLettersRemaining = currentWordString.split('');
@@ -49,7 +53,9 @@ function startGame() {
 }
 
 function displayWord(messageIndex) {
+    console.log('\n');
     currentWordObject.showGuessesAndBlanks();
+    console.log('\n');
 
     inquirer.prompt([{
         type: "input",
@@ -93,12 +99,12 @@ function displayWord(messageIndex) {
 }
 
 function winGame() {
-    console.log('\nYou win! You guessed the word: ' + currentWordString);
+    console.log('\nYou win! You guessed the word: ' + currentWordString + '\n');
     endGame();
 }
 
 function loseGame() {
-    console.log('\nYou lose! The word was: ' + currentWordString);
+    console.log('\nYou lose! The word was: ' + currentWordString + '\n');
     endGame();
 }
 
@@ -107,12 +113,18 @@ function endGame() {
         type: "list",
         name: "startup",
         message: "Would you like to play again?",
-        choices: ["Play", "Quit"]
+        choices: ["Play -- Easy", "Play -- Medium", "Play -- Hard", "Quit"]
     }
     ]).then(function (response) {
         switch (response.startup) {
-            case 'Play':
-                startGame();
+            case 'Play -- Easy':
+                startGame(9);
+                break;
+            case 'Play -- Medium':
+                startGame(6);
+                break;
+            case 'Play -- Hard':
+                startGame(3);
                 break;
             case 'Quit': default:
         }
